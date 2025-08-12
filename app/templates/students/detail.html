@@ -1,0 +1,21 @@
+{% extends "base.html" %}
+{% block title %}{{ student.full_name() }} - Booky{% endblock %}
+{% block content %}
+<h2>{{ student.full_name() }}</h2>
+<p class="text-muted">Email: {{ student.email or '—' }} • Roll: {{ student.roll or '—' }}</p>
+{% if student.notes %}
+<div class="card mb-3">
+    <div class="card-body">{{ student.notes }}</div>
+</div>
+{% endif %}
+
+{% if current_user.is_authenticated %}
+<a class="btn btn-primary" href="{{ url_for('students.edit_student', student_id=student.id) }}">Edit</a>
+
+<form method="POST" action="{{ url_for('students.delete_student', student_id=student.id) }}" class="d-inline">
+    {{ delete_form.hidden_tag() }}
+    {{ delete_form.submit(class="btn btn-danger", onclick="return confirm('Delete this student?')") }}
+</form>
+{% endif %}
+<a class="btn btn-secondary" href="{{ url_for('students.list_students') }}">Back</a>
+{% endblock %}

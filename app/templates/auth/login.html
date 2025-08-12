@@ -1,0 +1,21 @@
+{% extends "base.html" %}
+{% block title %}Login - Booky{% endblock %}
+{% block content %}
+<div class="row justify-content-center">
+    <div class="col-md-6 col-lg-4">
+        <h3>Admin Login</h3>
+        <form method="POST" novalidate>
+            {{ form.hidden_tag() }}
+            <div class="mb-3">
+                {{ form.username.label(class="form-label") }}
+                {{ form.username(class="form-control") }}
+            </div>
+            <div class="mb-3">
+                {{ form.password.label(class="form-label") }}
+                {{ form.password(class="form-control") }}
+            </div>
+            <button class="btn btn-primary">{{ form.submit.label.text }}</button>
+        </form>
+    </div>
+</div>
+{% endblock %}

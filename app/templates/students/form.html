@@ -1,0 +1,31 @@
+{% extends "base.html" %}
+{% block title %}{{ action }} Student - Booky{% endblock %}
+{% block content %}
+<h3>{{ action }} Student</h3>
+<form method="POST" novalidate>
+    {{ form.hidden_tag() }}
+    <div class="mb-3">
+        {{ form.first_name.label(class="form-label") }}
+        {{ form.first_name(class="form-control") }}
+        {% for e in form.first_name.errors %}<div class="text-danger small">{{ e }}</div>{% endfor %}
+    </div>
+    <div class="mb-3">
+        {{ form.last_name.label(class="form-label") }}
+        {{ form.last_name(class="form-control") }}
+    </div>
+    <div class="mb-3">
+        {{ form.email.label(class="form-label") }}
+        {{ form.email(class="form-control") }}
+    </div>
+    <div class="mb-3">
+        {{ form.roll.label(class="form-label") }}
+        {{ form.roll(class="form-control") }}
+    </div>
+    <div class="mb-3">
+        {{ form.notes.label(class="form-label") }}
+        {{ form.notes(class="form-control", rows="4") }}
+    </div>
+    <button class="btn btn-success">{{ form.submit.label.text }}</button>
+    <a class="btn btn-secondary" href="{{ url_for('students.list_students') }}">Cancel</a>
+</form>
+{% endblock %}

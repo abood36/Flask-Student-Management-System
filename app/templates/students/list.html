@@ -1,0 +1,55 @@
+{% extends "base.html" %}
+{% block title %}Students - Booky{% endblock %}
+{% block content %}
+<div class="d-flex justify-content-between align-items-center mb-3">
+    <h2>Students</h2>
+    <div>
+        <form class="d-flex" method="GET" action="{{ url_for('students.list_students') }}">
+            <input class="form-control me-2" name="q" placeholder="Search name / email / roll" value="{{ q }}">
+            <button class="btn btn-outline-success">Search</button>
+        </form>
+    </div>
+</div>
+
+{% if students %}
+<div class="list-group mb-3">
+    {% for s in students %}
+    <a href="{{ url_for('students.student_detail', student_id=s.id) }}"
+        class="list-group-item list-group-item-action d-flex justify-content-between align-items-center">
+        <div>
+            <strong>{{ s.full_name() }}</strong>
+            <div class="small text-muted">{{ s.email or '—' }} • {{ s.roll or '—' }}</div>
+        </div>
+        <small class="text-muted">{{ s.created_at.strftime('%Y-%m-%d') }}</small>
+    </a>
+    {% endfor %}
+</div>
+
+<!-- pagination -->
+<nav>
+    <ul class="pagination">
+        {% if pagination.has_prev %}
+        <li class="page-item"><a class="page-link"
+                href="{{ url_for('students.list_students', page=pagination.prev_num, q=q) }}">Previous</a></li>
+        {% else %}
+        <li class="page-item disabled"><span class="page-link">Previous</span></li>
+        {% endif %}
+        <li class="page-item disabled"><span class="page-link">Page {{ pagination.page }} / {{ pagination.pages
+                }}</span></li>
+        {% if pagination.has_next %}
+        <li class="page-item"><a class="page-link"
+                href="{{ url_for('students.list_students', page=pagination.next_num, q=q) }}">Next</a></li>
+        {% else %}
+        <li class="page-item disabled"><span class="page-link">Next</span></li>
+        {% endif %}
+    </ul>
+</nav>
+
+{% else %}
+<p class="text-muted">No students found. {% if current_user.is_authenticated %}Add one now.{% endif %}</p>
+{% endif %}
+
+{% if current_user.is_authenticated %}
+<a class="btn btn-secondary mt-3" href="{{ url_for('students.export_csv', q=q) }}">Export CSV</a>
+{% endif %}
+{% endblock %}
